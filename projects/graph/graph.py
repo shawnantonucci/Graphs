@@ -73,12 +73,20 @@ class Graph:
                 queue.append(n_path)
 
     def dfs(self, starting_vertex, destination_vertex):
-        """
-        Return a list containing a path from
-        starting_vertex to destination_vertex in
-        depth-first order.
-        """
-        pass  # TODO
+        st = Stack()
+        visited = set()
+        st.push(starting_vertex)
+
+        while destination_vertex not in visited:
+            vert = st.pop()
+            if vert not in visited:
+                print(vert)
+                visited.add(vert)
+                if vert is not None:
+                    for neighbor in self.vertices[vert]:
+                        st.push(neighbor)
+                else:
+                    return False
 
 
 if __name__ == '__main__':
