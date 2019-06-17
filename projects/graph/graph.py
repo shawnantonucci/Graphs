@@ -18,7 +18,7 @@ class Graph:
             self.vertices[v1].add(v2)
             self.vertices[v2].add(v1)
         else:
-            return
+            return False
 
     def bft(self, starting_vertex):
         q = util.Queue()
@@ -26,7 +26,7 @@ class Graph:
         q.pop(starting_vertex)
 
         while q.size() > 0:
-            n = q.pop(0)
+            n = q.pop()
             if n not in visited:
                 print(n)
                 visited.add(n)
@@ -34,11 +34,18 @@ class Graph:
                     q.pop(neighbor)
 
     def dft(self, starting_vertex):
-        """
-        Print each vertex in depth-first order
-        beginning from starting_vertex.
-        """
-        pass  # TODO
+       st = util.Stack()
+       visited = set()
+       st.push(starting_vertex)
+
+       while st.size() > 0:
+           n = st.pop()
+           if n not in visited:
+               print(n)
+               visited.add(n)
+               for neighbor in self.vertices[n]:
+                   st.push(neighbor)
+
     def dft_recursive(self, starting_vertex):
         """
         Print each vertex in depth-first order
