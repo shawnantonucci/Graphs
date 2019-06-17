@@ -15,16 +15,24 @@ class Graph:
 
     def add_edge(self, v1, v2):
         if v1 in self.vertices and v2 in self.vertices:
-            self.vertices[v1].Queue(v2)
+            self.vertices[v1].add(v2)
+            self.vertices[v2].add(v1)
         else:
             return
 
     def bft(self, starting_vertex):
-        """
-        Print each vertex in breadth-first order
-        beginning from starting_vertex.
-        """
-        pass  # TODO
+        q = util.Queue()
+        visited = set()
+        q.pop(starting_vertex)
+
+        while q.size() > 0:
+            n = q.pop(0)
+            if n not in visited:
+                print(n)
+                visited.add(n)
+                for neighbor in self.vertices[n]:
+                    q.pop(neighbor)
+
     def dft(self, starting_vertex):
         """
         Print each vertex in depth-first order
