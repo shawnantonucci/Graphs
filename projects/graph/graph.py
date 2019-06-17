@@ -8,15 +8,17 @@ class Graph:
     def __init__(self):
         self.vertices = {}
     def add_vertex(self, vertex):
-        """
-        Add a vertex to the graph.
-        """
-        pass  # TODO
+        if self.vertices.vertex:
+            return False
+        else:
+            return self.vertices.append(vertex)
+
     def add_edge(self, v1, v2):
-        """
-        Add a directed edge to the graph.
-        """
-        pass  # TODO
+        if v1 in self.vertices and v2 in self.vertices:
+            self.vertices[v1].Queue(v2)
+        else:
+            return
+
     def bft(self, starting_vertex):
         """
         Print each vertex in breadth-first order
