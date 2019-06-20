@@ -43,6 +43,20 @@ class Stack:
 
 stack = Stack()
 
+while len(traversal_graph) < 500 and len(traversalPath) < 2000:
+    currentRoom = player.currentRoom.id
+    print("Current room: {}".format(currentRoom))
+
+    if currentRoom not in traversal_graph:
+        current_exits = {}
+
+        for exit in player.currentRoom.getExits():
+            current_exits[exit] = "?"
+        traversal_graph[currentRoom] = current_exits
+
+    current_exits = traversal_graph[currentRoom]
+    print("Exits: {}".format(current_exits))
+
 
 # TRAVERSAL TEST
 visited_rooms = set()
