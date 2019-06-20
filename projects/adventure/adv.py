@@ -57,6 +57,20 @@ while len(traversal_graph) < 500 and len(traversalPath) < 2000:
     current_exits = traversal_graph[currentRoom]
     print("Exits: {}".format(current_exits))
 
+    if "n" in current_exits and current_exits["n"] == "?":
+        player.travel("n")
+        traversalPath.append("n")
+        next_room = player.currentRoom.id
+        current_exits["n"] = next_room
+
+        if next_room not in traversal_graph:
+            next_room_exits = {}
+
+            for exit in player.currentRoom.getExits():
+                next_room_exits[exit] = "?"
+
+            next_room_exits["s"] = currentRoom
+            traversal_graph[next_room] = next_room_exits
 
 # TRAVERSAL TEST
 visited_rooms = set()
@@ -78,10 +92,10 @@ else:
 #######
 # UNCOMMENT TO WALK AROUND
 #######
-# player.currentRoom.printRoomDescription(player)
-# while True:
-#     cmds = input("-> ").lower().split(" ")
-#     if cmds[0] in ["n", "s", "e", "w"]:
-#         player.travel(cmds[0], True)
-#     else:
-#         print("I did not understand that command.")
+player.currentRoom.printRoomDescription(player)
+while True:
+    cmds = input("-> ").lower().split(" ")
+    if cmds[0] in ["n", "s", "e", "w"]:
+        player.travel(cmds[0], True)
+    else:
+        print("I did not understand that command.")
