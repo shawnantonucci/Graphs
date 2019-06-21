@@ -22,9 +22,124 @@ world.printRooms()
 player = Player("Name", world.startingRoom)
 
 # Fill this out
-traversalPath = []
+traversalPath = ["n", "s", "e", "w"]
+traversal_graph = {}
 
+class Stack:
+    def __init__(self):
+        self.stack = []
 
+    def push(self, value):
+        self.stack.append(value)
+
+    def pop(self):
+        if self.size() > 0:
+            return self.stack.pop()
+        else:
+            return None
+
+    def size(self):
+        return len(self.stack)
+
+stack = Stack()
+
+while len(traversal_graph) < 500 and len(traversalPath) < 2000:
+    currentRoom = player.currentRoom.id
+    print("Current room: {}".format(currentRoom))
+
+    if currentRoom not in traversal_graph:
+        current_exits = {}
+
+        for exit in player.currentRoom.getExits():
+            current_exits[exit] = "?"
+        traversal_graph[currentRoom] = current_exits
+
+    current_exits = traversal_graph[currentRoom]
+    print("Exits: {}".format(current_exits))
+
+    if "n" in current_exits and current_exits["n"] == "?":
+        player.travel("n")
+        traversalPath.append("n")
+        next_room = player.currentRoom.id
+        current_exits["n"] = next_room
+
+        if next_room not in traversal_graph:
+            next_room_exits = {}
+
+            for exit in player.currentRoom.getExits():
+                next_room_exits[exit] = "?"
+
+            next_room_exits["s"] = currentRoom
+            traversal_graph[next_room] = next_room_exits
+
+        else:
+            traversal_graph[next_room]["s"] = currentRoom
+        stack.push("s")
+
+    elif "e" in current_exits and current_exits["e"] == "?":
+        player.travel("e")
+        traversalPath.append("e")
+        next_room = player.currentRoom.id
+        current_exits["e"] = next_room
+
+        if next_room not in traversal_graph:
+            next_room_exits = {}
+
+            for exit in player.currentRoom.getExits():
+                next_room_exits[exit] = "?"
+            next_room_exits["w"] = currentRoom
+            traversal_graph[next_room] = next_room_exits
+
+        else:
+            traversal_graph[next_room]["w"] = currentRoom
+        stack.push("w")
+
+    elif "s" in current_exits and current_exits["s"] == "?":
+        player.travel("s")
+        traversalPath.append("s")
+        next_room = player.currentRoom.id
+        current_exits["s"] = next_room
+
+        if next_room not in traversal_graph:
+            next_room_exits = {}
+            for exit in player.currentRoom.getExits():
+                next_room_exits[exit] = "?"
+
+            next_room_exits["n"] = currentRoom
+            traversal_graph[next_room] = next_room_exits
+
+        else:
+            traversal_graph[next_room]["n"] = currentRoom
+        stack.push("n")
+
+    elif "w" in current_exits and current_exits["w"] == "?":
+        player.travel("w")
+        traversalPath.append("w")
+
+        next_room = player.currentRoom.id
+        current_exits["w"] = next_room
+
+        if next_room not in traversal_graph:
+            next_room_exits = {}
+
+            for exit in player.currentRoom.getExits():
+                next_room_exits[exit] = "?"
+
+            next_room_exits["e"] = currentRoom
+            traversal_graph[next_room] = next_room_exits
+        else:
+
+            traversal_graph[next_room]["e"] = currentRoom
+        stack.push("e")
+
+    else:
+        goBack = stack.pop()
+
+        if goBack is None:
+            break
+
+        player.travel(goBack)
+        traversalPath.append(goBack)
 
 # TRAVERSAL TEST
 visited_rooms = set()
